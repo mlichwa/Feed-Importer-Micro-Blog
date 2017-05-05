@@ -18,7 +18,6 @@ class rssMBParser {
 	 */
 	function _parse($item, $feed_title, $strip_html) {
 
-		echo($strip_html);
 		global $rss_post_importer;
 
 		// get the saved template

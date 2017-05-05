@@ -503,6 +503,9 @@ class rssMBEngine {
 	 */
 	private function _insert($post, $url) {
 
+		$post['post_title'] = '🤷';
+
+
 		if ($post['post_category'][0] == "") {
 			$post['post_category'] = array(1);
 		} else {
