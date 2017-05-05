@@ -7,12 +7,6 @@
  */
 class rssMBEngine {
 
-	/**
-	 * Whether the API key is valid
-	 * 
-	 * @var boolean
-	 */
-	var $is_key_valid;
 
 	/**
 	 * The options
@@ -63,13 +57,6 @@ class rssMBEngine {
 
 			// before the first feed, we check for key validity
 			if ( $i == 0 ) {
-				$this->is_key_valid = $rss_post_importer->is_valid_key($this->options['settings']['feeds_api_key']);
-				$this->options['settings']['is_key_valid'] = $this->is_key_valid;
-				// if the key is not fine
-				if (!empty($this->options['settings']['feeds_api_key']) && !$this->is_key_valid) {
-					// unset from settings
-					unset($this->options['settings']['feeds_api_key']);
-				}
 				// update options
 				$new_options = array(
 					'feeds' => $this->options['feeds'],
@@ -194,17 +181,6 @@ class rssMBEngine {
 	 */
 	private function url($url) {
 
-		$key = $this->options['settings']['feeds_api_key'];
-
-		//if api key has been saved by user and is not empty
-		if (isset($key) && !empty($key)) {
-
-//			$api_url = 'http://176.58.108.28/fetch.php?key=' . $key . '&url=' . $url;
-			$api_url = 'http://176.58.108.28/fetch.php?key=' . $key . '&url=' . urlencode($url);
-
-			return $api_url;
-		}
-
 		return $url;
 	}
 
@@ -223,6 +199,7 @@ class rssMBEngine {
 		// if we are saving
 		if ($args['save_to_db']) {
 			// insert and return
+			var_dump($feed_items);
 			$saved_posts = $this->insert($feed_items, $args);
 			return $saved_posts;
 		}
@@ -341,7 +318,6 @@ class rssMBEngine {
 	 * @return array
 	 */
 	private function insert($items, $args = array()) {
-
 		$saved_posts = array();
 
 		// Initialise the content parser
@@ -364,7 +340,7 @@ class rssMBEngine {
 
 				// parse the content
 				$content = $parser->_parse($item, $args['feed_title'], $args['strip_html']);
-
+				
 				$post = array(
 					'post_title' => $item->get_title(),
 					'post_content' => $content,

@@ -8,24 +8,11 @@
 class rssMBAdmin {
 
 	/**
-	 * Whether the API key is valid
-	 * 
-	 * @var boolean
-	 */
-	var $is_key_valid;
-
-	/**
 	 * The options
 	 * 
 	 * @var array 
 	 */
 	var $options;
-
-	/**
-	 * Aprompt for invalid/absent API keys
-	 * @var string
-	 */
-	var $key_prompt;
 
 	/**
 	 *  Start
@@ -35,9 +22,6 @@ class rssMBAdmin {
 	public function __construct() {
 
 		$this->load_options();
-
-		// add a key prompt
-		$this->key_prompt = __('%1$sYou need a <a href="%2$s" target="_blank">Full Text RSS Key</a> to activate this section, please <a href="%2$s" target="_blank">get one and try it free</a> for the next 14 days to see how it goes.', 'rss_mb');
 
 		// initialise logging
 		$this->log = new rssMBLog();
@@ -55,15 +39,6 @@ class rssMBAdmin {
 
 		// check for valid key when we don't have it cached
 		// actually this populates the settings with our defaults on the first plugin activation
-		if ( !isset($this->options['settings']['is_key_valid']) ) {
-			// check if key is valid
-			$this->is_key_valid = $rss_post_importer->is_valid_key($this->options['settings']['feeds_api_key']);
-			$this->options['settings']['is_key_valid'] = $this->is_key_valid;
-			// if the key is not fine
-			if (!empty($this->options['settings']['feeds_api_key']) && !$this->is_key_valid) {
-				// unset from settings
-				unset($this->options['settings']['feeds_api_key']);
-			}
 			// update options
 			$new_options = array(
 				'feeds' => $this->options['feeds'],
@@ -74,9 +49,7 @@ class rssMBAdmin {
 			);
 			// update in db
 			update_option('rss_mb_feeds', $new_options);
-		} else {
-			$this->is_key_valid = $this->options['settings']['is_key_valid'];
-		}
+
 	}
 
 	/**
@@ -108,7 +81,7 @@ class rssMBAdmin {
 		add_action('wp_ajax_rss_mb_import', array($this, 'ajax_import'));
 
 		// disable the feed author dropdown for invalid/absent API keys
-		add_filter('wp_dropdown_users', array($this, 'disable_user_dropdown'));
+		// add_filter('wp_dropdown_users', array($this, 'disable_user_dropdown'));
 
 		// Add 10 minutes in frequency.
 		add_filter('cron_schedules', array($this, 'rss_mb_cron_add'));
@@ -191,8 +164,8 @@ class rssMBAdmin {
 	function rss_mb_cron_add($schedules) {
 
 		$schedules['minutes_10'] = array(
-			'interval' => 600,
-			'display' => '10 minutes'
+			'interval' => 300,
+			'display' => '5 minutes'
 		);
 		return $schedules;
 	}
@@ -205,10 +178,10 @@ class rssMBAdmin {
 		// load the form processor
 		$this->processor->process();
 
-		if ( $this->is_key_valid ) {
+		
 			// purge "deleted posts" cache when requested
 			$this->processor->purge_deleted_posts_cache();
-		}
+		
 	}
 
 	/**
@@ -221,7 +194,7 @@ class rssMBAdmin {
 		$this->load_options();
 
 		// display a success message
-		if ( isset($_GET['deleted_cache_purged']) || isset($_GET['settings-updated']) || isset($_GET['invalid_api_key']) || isset($_GET['import']) && @$_GET['settings-updated'] ) {
+		if ( isset($_GET['deleted_cache_purged']) || isset($_GET['settings-updated']) || isset($_GET['import']) && @$_GET['settings-updated'] ) {
 ?>
 		<div id="message" class="updated">
 <?php
@@ -235,13 +208,6 @@ class rssMBAdmin {
 			<p><strong><?php _e('Settings saved.') ?></strong></p>
 <?php
 			}
-// OBSOLETE, we're now doing this via AJAX
-//			if( isset($_GET['imported']) && $_GET['imported'] ) {
-//				$imported = intval($_GET['imported']);
-/*?>
-			<p><strong><?php printf( _n( '%s new post imported.', '%s new posts imported.', $imported, 'rss_mb' ), $imported ); ?></strong></p>
-<?php*/
-//			}
 ?>
 		</div>
 <?php
@@ -293,19 +259,6 @@ if ( feeds !== undefined ) {
 	}
 
 	/**
-	 * Display errors
-	 * 
-	 * @param string $error The error message
-	 * @param boolean $inline Whether the error is inline or shown like regular wp errors
-	 */
-	function key_error($error, $inline = false) {
-
-		$class = ($inline) ? 'rss-mb-error' : 'error';
-
-		echo '<div class="' . $class . '"><p>' . $error . '</p></div>';
-	}
-
-	/**
 	 * Add a new row for a new feed
 	 */
 	function add_row() {
@@ -349,14 +302,7 @@ if ( feeds !== undefined ) {
 
 		// TODO: make this better
 		if ( $_found == 0 ) {
-			// check for valid key only for the first feed
-			$this->is_key_valid = $rss_post_importer->is_valid_key($this->options['settings']['feeds_api_key']);
-			$this->options['settings']['is_key_valid'] = $this->is_key_valid;
-			// if the key is not fine
-			if (!empty($this->options['settings']['feeds_api_key']) && !$this->is_key_valid) {
-				// unset from settings
-				unset($this->options['settings']['feeds_api_key']);
-			}
+			
 			// update options
 			$new_options = array(
 				'feeds' => $this->options['feeds'],
@@ -424,9 +370,9 @@ if ( feeds !== undefined ) {
 	function disable_user_dropdown($output) {
 
 		// if we have a valid key we don't need to disable anything
-		if ($this->is_key_valid) {
-			return $output;
-		}
+		
+		return $output;
+		
 
 		// check if this is the feed dropdown (and not any other)
 		preg_match('/rss-mb-specific-feed-author/i', $output, $matched);

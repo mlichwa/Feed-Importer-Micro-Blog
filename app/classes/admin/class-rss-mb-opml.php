@@ -26,37 +26,37 @@ if (!class_exists("Rss_mb_opml")) {
 		 */
 		function export() {
 
-			if ( $this->options['settings']['is_key_valid'] ) {
+			
 
-				$feeds = $this->options['feeds'];
-				$title = get_option('blogname');
-				$ownerEmail = get_option('admin_email');
+			$feeds = $this->options['feeds'];
+			$title = get_option('blogname');
+			$ownerEmail = get_option('admin_email');
 
-				if ( ! count($feeds) || ! trim($title) || ! $ownerEmail ) {
-					return;
-				}
-
-				if ( ! $title || ! $ownerEmail ) {
-					return;
-				}
-
-				$output = '';
-
-				$output .= $this->_header($title, $ownerEmail);
-
-				foreach ( $feeds as $feed ) {
-					$output .= $this->_entry($feed['url'], $feed['name']);
-				}
-
-				$output .= $this->_footer();
-
-				$filename = "rss_mb_export_" . date("Y-m-d") . ".opml";
-				$this->_send_headers($filename);
-				echo "\xEF\xBB\xBF";
-				print($output);
-				die();
-
+			if ( ! count($feeds) || ! trim($title) || ! $ownerEmail ) {
+				return;
 			}
+
+			if ( ! $title || ! $ownerEmail ) {
+				return;
+			}
+
+			$output = '';
+
+			$output .= $this->_header($title, $ownerEmail);
+
+			foreach ( $feeds as $feed ) {
+				$output .= $this->_entry($feed['url'], $feed['name']);
+			}
+
+			$output .= $this->_footer();
+
+			$filename = "rss_mb_export_" . date("Y-m-d") . ".opml";
+			$this->_send_headers($filename);
+			echo "\xEF\xBB\xBF";
+			print($output);
+			die();
+
+
 
 		}
 
@@ -65,23 +65,20 @@ if (!class_exists("Rss_mb_opml")) {
 		 */
 		function import($feeds) {
 
-			if ( $this->options['settings']['is_key_valid'] ) {
+			
 
-				$file = $_FILES['import_opml']['tmp_name'];
-				$opml = file_get_contents($file);
-				@unlink($file);
+			$file = $_FILES['import_opml']['tmp_name'];
+			$opml = file_get_contents($file);
+			@unlink($file);
 
-				// apply some validation fixes:
-				// - & -> &amp;
-				$opml = preg_replace( '/(&(?!amp;))/', '&amp;', $opml );
+			// apply some validation fixes:
+			// - & -> &amp;
+			$opml = preg_replace( '/(&(?!amp;))/', '&amp;', $opml );
 
-				$opml = new OPMLParser($opml);
+			$opml = new OPMLParser($opml);
 
-				$feeds = $this->_parse_data( $opml->data, $feeds );
-				$this->options['feeds'] = $feeds;
-
-			}
-
+			$feeds = $this->_parse_data( $opml->data, $feeds );
+			$this->options['feeds'] = $feeds;
 			return $feeds;
 
 		}

@@ -85,7 +85,7 @@ class rssMBFeaturedImage {
 		$featured_id = $this->_prepare($item, $post_id);
 
 		if ( ! is_wp_error($featured_id) ) {
-//			add_action('set_rss_mb_featured_image', $featured_id, $post_id);
+			//add_action('set_rss_mb_featured_image', $featured_id, $post_id);
 			do_action( 'set_rss_mb_featured_image', $featured_id, $post_id );
 			// set as featured image
 			$meta_id = set_post_thumbnail($post_id, $featured_id);

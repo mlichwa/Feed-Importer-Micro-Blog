@@ -6,7 +6,7 @@ if (!isset($f)) {
 		'id' => 0,
 		'name' => 'New feed',
 		'url' => '',
-		'max_posts' => 20,
+		'max_posts' => 5,
 		'author_id' => 1,
 		'category_id' => 1,
 		'tags_id' => array(),
@@ -129,20 +129,6 @@ if (is_array($f['category_id'])) {
 						<?php
 						echo $rss_post_mb_admin->rss_mb_tags_checkboxes($f['id'], $f['tags_id']);
 						?></div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="<?php echo ($f['id']); ?>-keywords"><?php _e('Keywords Filter', 'rss_mb'); ?></label>
-					<p class="description"><?php _e('Enter keywords and/or regex, separated by commas', "rss_mb"); ?></p>
-					<p class="description">
-						<?php _e('Only posts matching these keywords/regex will be imported', "rss_mb"); ?>
-					</p>
-				</td>
-				<td>
-					<textarea name="<?php echo ($f['id']); ?>-keywords" id="<?php echo ($f['id']); ?>-keywords" cols="30" rows="<?php echo $disabled ? '3' : '10'; ?>"<?php echo $disabled; ?>><?php
-						echo isset($f['keywords']) && !empty($f['keywords']) && is_array($f['keywords']) ? implode(', ', $f['keywords']) : '';
-						?></textarea>
 				</td>
 			</tr>
 			<tr>

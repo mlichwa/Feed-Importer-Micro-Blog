@@ -8,24 +8,11 @@
 class rssMBFront {
 
 	/**
-	 * Whether the API key is valid
-	 * 
-	 * @var boolean
-	 */
-	var $is_key_valid;
-
-	/**
 	 * The options
 	 * 
 	 * @var array 
 	 */
 	var $options;
-
-	/**
-	 * Aprompt for invalid/absent API keys
-	 * @var string
-	 */
-	var $key_prompt;
 
 	/**
 	 * Initialise and hook all actions
@@ -75,7 +62,6 @@ class rssMBFront {
 	}
 
 	function rss_mb_url_parse($content) {
-
 		$regexp = "<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>";
 		if (preg_match_all("/$regexp/siU", $content, $matches, PREG_SET_ORDER)) {
 			if (!empty($matches)) {

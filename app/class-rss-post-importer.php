@@ -53,7 +53,6 @@ class rssPostImporter {
 
 		$default_settings = array(
 			'enable_logging' => false,
-			'feeds_api_key' => false,
 			'frequency' => 0,
 			'post_template' => "{\$content}\nSource: {\$feed_title}",
 			'post_status' => 'publish',
@@ -87,10 +86,6 @@ class rssPostImporter {
 		}
 
 		$options['settings'] = wp_parse_args($options['settings'], $default_settings);
-
-		if (!array_key_exists('imports', $options)) {
-			$options['imports'] = 0;
-		}
 
 		$this->options = $options;
 	}
@@ -199,28 +194,6 @@ class rssPostImporter {
 
 		$this->front = new rssMBFront();
 		$this->front->init();
-	}
-
-	/**
-	 * Check if a given API key is valid
-	 * 
-	 * @param string $key
-	 * @return boolean
-	 */
-	public function is_valid_key($key) {
-
-		if (empty($key)) {
-			return false;
-		}
-
-		$url = "http://176.58.108.28/fetch.php?key=$key&url=http://dummyurl.com";
-		$content = file_get_contents($url);
-
-		if (trim($content) == "A valid key must be supplied") {
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

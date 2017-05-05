@@ -24,7 +24,7 @@
 						<?php
 						include_once RSS_MB_PATH . 'app/templates/feed-table.php';
 						include_once RSS_MB_PATH . 'app/templates/settings-table.php';
-						// include_once RSS_MB_PATH . 'app/templates/stats-placeholder.php';
+						include_once RSS_MB_PATH . 'app/templates/stats-placeholder.php';
 						?>
 					</div>
 

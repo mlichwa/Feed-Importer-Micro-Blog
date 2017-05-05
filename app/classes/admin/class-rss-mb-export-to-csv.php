@@ -52,7 +52,7 @@ function download_send_headers($filename) {
 	header("Content-Transfer-Encoding: binary");
 }
 
-if ( isset($_POST['csv_download']) && $options['settings']['is_key_valid'] ) {
+if ( isset($_POST['csv_download'])) {
 
 	download_send_headers("data_export_" . date("Y-m-d") . ".csv");
 	echo array2csv($options['feeds']);

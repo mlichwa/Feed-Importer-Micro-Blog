@@ -8,13 +8,6 @@
 class rssMBAdminProcessor {
 
 	/**
-	 * If we have a valid api key
-	 * 
-	 * @var boolean
-	 */
-	var $is_key_valid;
-
-	/**
 	 * Process the form result
 	 * 
 	 * @global object $rss_post_importer
@@ -33,10 +26,6 @@ class rssMBAdminProcessor {
 		// formulate the settings array
 		$settings = $this->process_settings();
 
-		// check result for "invalid_key" flag
-		$invalid_api_key = isset($settings['invalid_api_key']);
-		unset($settings['invalid_api_key']);
-
 		// update cron settings
 		$this->update_cron($settings['frequency']);
 
@@ -44,7 +33,7 @@ class rssMBAdminProcessor {
 		$feeds = $this->process_feeds($ids);
 
 		// import CSV file
-		if ( isset($_FILES['import_csv']) && $settings['is_key_valid'] ) {
+		if ( isset($_FILES['import_csv']) ) {
 			$feeds = $this->import_csv($feeds);
 		}
 
@@ -68,7 +57,6 @@ class rssMBAdminProcessor {
 				'settings-updated' => 'true',
 				// yield the routine for import feeds via AJAX when needed
 				'import' => ( $_POST['save_to_db'] == 'true' ),
-				'message' => $invalid_api_key ? 2 : 1,
 //				'opml_errors' => $opml_errors ? urlencode(implode('<br/>',$opml_errors)) : '',
 			),
 			$rss_post_importer->page_link
@@ -189,7 +177,6 @@ class rssMBAdminProcessor {
 		// Get selected settings for all imported posts
 		$settings = array(
 			'frequency' => $_POST['frequency'],
-			'feeds_api_key' => $_POST['feeds_api_key'],
 			'post_template' => stripslashes_deep($_POST['post_template']),
 			'post_status' => $_POST['post_status'],
 			'author_id' => $_POST['author_id'],
@@ -205,11 +192,6 @@ class rssMBAdminProcessor {
 		);
 
 		global $rss_post_importer;
-
-		// check if submitted api key is valid
-		$this->is_key_valid = $rss_post_importer->is_valid_key($settings['feeds_api_key']);
-		// save key validity state
-		$settings['is_key_valid'] = $this->is_key_valid;
 
 		// filter the settings and then send them back for saving
 		return $this->filter($settings);
@@ -245,22 +227,22 @@ class rssMBAdminProcessor {
 			if ($id) {
 				$keywords = array();
 				// if the key is valid
-				if ($this->is_key_valid) {
-					// set up keywords (otherwise don't)
-					if (isset($_POST[$id . '-keywords'])) {
-						$keyword_str = $_POST[$id . '-keywords'];
-					}
-					if (!empty($keyword_str)) {
-						$keywords = explode(',', $keyword_str);
-					}
+
+				// set up keywords (otherwise don't)
+				if (isset($_POST[$id . '-keywords'])) {
+					$keyword_str = $_POST[$id . '-keywords'];
 				}
+				if (!empty($keyword_str)) {
+					$keywords = explode(',', $keyword_str);
+				}
+
 				array_push($feeds, array(
 					'id' => $id,
 					'url' => $_POST[$id . '-url'],
 					'name' => $_POST[$id . '-name'],
 					'max_posts' => $_POST[$id . '-max_posts'],
 					// different author ids depending on valid API keys
-					'author_id' => ($this->is_key_valid && isset($_POST[$id . '-author_id'])) ? $_POST[$id . '-author_id'] : $_POST['author_id'],
+					'author_id' => ( isset($_POST[$id . '-author_id'])) ? $_POST[$id . '-author_id'] : $_POST['author_id'],
 					'category_id' => (isset($_POST[$id . '-category_id'])) ? $_POST[$id . '-category_id'] : '',
 					'tags_id' => (isset($_POST[$id . '-tags_id'])) ? $_POST[$id . '-tags_id'] : '',
 					'keywords' => array_map('trim',$keywords),
@@ -310,32 +292,20 @@ class rssMBAdminProcessor {
 	 */
 	private function filter($settings) {
 
-		// if the key is not fine
-		if (!empty($settings['feeds_api_key']) && !$this->is_key_valid) {
+		// set up keywords (otherwise don't)
+		if (isset($_POST['keyword_filter']))
+			$keyword_str = $_POST['keyword_filter'];
 
-			// unset from settings
-			unset($settings['feeds_api_key']);
-			$settings['invalid_api_key'] = true;
+		$keywords = array();
+
+		if (!empty($keyword_str)) {
+			$keywords = explode(',', $keyword_str);
 		}
+		$settings['keywords'] = array_map('trim',$keywords);
 
-		// if the key is valid
-		if ($this->is_key_valid) {
-
-			// set up keywords (otherwise don't)
-			if (isset($_POST['keyword_filter']))
-				$keyword_str = $_POST['keyword_filter'];
-
-			$keywords = array();
-
-			if (!empty($keyword_str)) {
-				$keywords = explode(',', $keyword_str);
-			}
-			$settings['keywords'] = array_map('trim',$keywords);
-
-			// set up "import deleted posts" (otherwise don't)
-			$settings['cache_deleted'] = isset($_POST['cache_deleted']) ? $_POST['cache_deleted'] : 'true';
+		// set up "import deleted posts" (otherwise don't)
+		$settings['cache_deleted'] = isset($_POST['cache_deleted']) ? $_POST['cache_deleted'] : 'true';
 			
-		}
 
 		return $settings;
 	}
