@@ -60,9 +60,9 @@ if (is_array($f['category_id'])) {
 			<a href="#" class="delete-row" data-target="<?php echo ($f['id']); ?>"><?php _e('Delete', 'rss_mb'); ?></a>
 		</div>
 	</td>
-	<td class="rss_mb-feed_url"><span class="field-url"><?php echo esc_url(stripslashes($f['url'])); ?></span></td>
+	<td class="rss_mb-feed_url"><span class="field-url"><?php echo esc_url(stripslashes($f['url'])); ?>.micro.blog/feed.xml</span></td>
 	<td class="rss_mb_feed_max_posts"><span class="field-max_posts"><?php echo $f['max_posts']; ?></span></td>
-   <!-- <td width="20%"><?php //echo $category;  ?></td>-->
+	
 </tr>
 <tr id="edit_<?php echo ($f['id']); ?>" class="edit-row<?php echo $show; ?>">
 	<td colspan="4">
@@ -77,8 +77,8 @@ if (is_array($f['category_id'])) {
 			</tr>
 			<tr>
 				<td>
-					<label for="<?php echo ($f['id']); ?>-url"><?php _e("Micro.blog Feed URL", 'rss_mb'); ?></label>
-					<p class="description">Specify your Micro.blog feed url. Your url will look similar to this: http://username.micro.blog/feed.xml and you can find it under Account->Feeds in your Micro.blog dashboard.</p>
+					<label for="<?php echo ($f['id']); ?>-url"><?php _e("Micro.blog username", 'rss_mb'); ?></label>
+					<p class="description">Specify your Micro.blog username.</p>
 				</td>
 				<td><input type="text" class="field-url" name="<?php echo ($f['id']); ?>-url" id="<?php echo ($f['id']); ?>-url" value="<?php echo esc_attr(stripslashes($f['url'])); ?>" /></td>
 			</tr>

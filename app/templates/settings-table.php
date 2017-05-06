@@ -14,12 +14,10 @@
 							<p class="description"><?php _e('How often will the import run.', "rss_mb"); ?></p>
 							<br>
 							<p class="large">
-								<?php printf(__("If your imports are not running regularly according to your settings you might need to set up a scheduled task, there are several ways to do this, most convenient is to set up a scheduled task on your server and simply ask it to hit your sites url (%s) regularly, there are also external sites that offer the same service, such as:", "rss_mb"), get_site_url()); ?>
+								<?php printf(__("If your imports are not running regularly according to your settings you might need to set up a scheduled task in CRON, there are external sites that offer the service, such as:", "rss_mb"), get_site_url()); ?>
 								<ul>
 									<li><a href="http://www.mywebcron.com" target="_blank">www.mywebcron.com</a></li>
 									<li><a href="http://www.onlinecronjobs.com" target="_blank">www.onlinecronjobs.com</a></li>
-									<li><a href="http://www.easycron.com" target="_blank">www.easycron.com</a></li>
-									<li><a href="http://cronless.com" target="_blank">cronless.com</a></li>
 								</ul>
 							</p>
 

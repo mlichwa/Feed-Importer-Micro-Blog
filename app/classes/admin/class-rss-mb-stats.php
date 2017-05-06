@@ -73,7 +73,6 @@ if (!class_exists("Rss_mb_stats")) {
 			$_POST["rss_till_date"] = date( 'm/d/Y', $end_time);
 
 			if ( isset($feeds["feeds"]) && is_array($feeds["feeds"]) && !empty($feeds["feeds"]) ) {
-				$pie_feeds_data = $this->get_pie_chart_data_between($start_time, $end_time);
 				$line_feeds_data = $this->get_line_chart_data_between($start_time, $end_time);
 				$bar_feeds_data = $this->get_bar_chart_data_between($start_time, $end_time);
 			?>
@@ -81,7 +80,7 @@ if (!class_exists("Rss_mb_stats")) {
 function drawChart() {
 <?php
 				$this->draw_line_charts_js($line_feeds_data, $feeds);
-				$this->draw_pie_chart_js($pie_feeds_data, $feeds);
+
 				$this->draw_bar_chart_js($bar_feeds_data, $feeds);
 ?>
 };
@@ -90,7 +89,6 @@ function drawChart() {
 				$this->show_date_pickers();
 ?>
 			<div class="rss_mb_stat_div" id="rssmb_chart_line" style=""></div>
-			<div class="rss_mb_stat_div" id="rssmb_chart_pie"  style=""></div>
 			<div class="rss_mb_stat_div" id="rssmb_chart_bar"  style=""></div>
 <?php
 			} else {

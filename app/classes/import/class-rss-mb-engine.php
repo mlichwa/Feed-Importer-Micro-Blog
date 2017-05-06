@@ -125,7 +125,12 @@ class rssMBEngine {
 			'strip_html' => $f['strip_html'],
 			'save_to_db' => true
 		);
-		return $this->_import($f['url'], $args);
+		// I'm limiting this tool to be used only with micro.blog domain. 
+		// The reason behind this choice that I've used vast of the code from another project.
+		// And since the other tools have more general approach (any RSS feed is allowed), I want this 
+		// plugin to work only with Micro.blog.
+		$maskedURL = 'https://'. $f['url'] . '.micro.blog/feed.xml';
+		return $this->_import($maskedURL, $args);
 	}
 
 	/**
