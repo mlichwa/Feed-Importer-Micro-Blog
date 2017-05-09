@@ -1,11 +1,11 @@
 <?php
 
 /*
-  Plugin Name: Micro.blog Feed Importer
+  Plugin Name: Feed Importer for Micro.blog
   Plugin URI: 
-  Description: This plugin lets you set up an import posts from one or several rss-feeds and save them as posts on your site. It has been optimized to support Micro.blog format but does work with any other RSS feeds.
+  Description: This plugin imports posts created with Micro.blog. You need a valid account with Micro.blog to use this plugin.  
   Author: Michal Lichwa
-  Version: 1.0.0
+  Version: 0.0.1
   Author URI: https://michallichwa.com/
   License: GPLv2 or later
   License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,7 +27,7 @@ if (!defined('RSS_MB_BASENAME')) {
 }
 
 if (!defined('RSS_MB_VERSION')) {
-	define('RSS_MB_VERSION', '1.0.0');
+	define('RSS_MB_VERSION', '0.0.1');
 }
 
 if (!defined('RSS_MB_LOG_PATH')) {
@@ -39,9 +39,9 @@ if (!is_dir(RSS_MB_LOG_PATH)) {
 }
 
 // helper classes
-include_once RSS_MB_PATH . 'app/classes/helpers/class-rss-mb-log.php';
-include_once RSS_MB_PATH . 'app/classes/helpers/class-rss-mb-featured-image.php';
-include_once RSS_MB_PATH . 'app/classes/helpers/class-rss-mb-parser.php';
+include_once RSS_MB_PATH . 'app/classes/helpers/class-rss-mb-log.php'; // Log cron tasks
+include_once RSS_MB_PATH . 'app/classes/helpers/class-rss-mb-featured-image.php'; // Add featured image to a blog post
+include_once RSS_MB_PATH . 'app/classes/helpers/class-rss-mb-parser.php'; 
 include_once RSS_MB_PATH . 'app/classes/helpers/rss-mb-functions.php';
 include_once RSS_MB_PATH . 'app/classes/helpers/class-OPMLParser.php'; // OPML Parser
 

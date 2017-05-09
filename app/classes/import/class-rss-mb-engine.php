@@ -2,8 +2,6 @@
 
 /**
  * Main import engine
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 class rssMBEngine {
 

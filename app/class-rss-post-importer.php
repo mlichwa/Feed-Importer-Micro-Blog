@@ -1,9 +1,7 @@
 <?php
 
 /**
- * One class to rule them all
- * 
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
+ * Class to manage all other
  */
 class rssPostImporter {
 
@@ -199,7 +197,7 @@ class rssPostImporter {
 	/**
 	 * Adds a settings link
 	 * 
-	 * @param array $links EXisting links
+	 * @param array $links Existing links
 	 * @return type
 	 */
 	public function settings_link($links) {

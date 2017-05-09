@@ -1,7 +1,6 @@
 <?php
 
 // This include gives us all the WordPress functionality
-
 $options = get_option('rss_mb_feeds', array());
 
 function array2csv(array &$array) {

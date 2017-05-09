@@ -2,8 +2,6 @@
 
 /**
  * Processes the admin screen form submissions
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 class rssMBAdminProcessor {
 

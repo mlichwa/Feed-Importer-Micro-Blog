@@ -2,8 +2,6 @@
 
 /**
  * This class handles all OPML functionality
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 if (!class_exists("Rss_mb_opml")) {
 

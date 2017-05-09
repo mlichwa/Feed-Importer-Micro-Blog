@@ -2,8 +2,6 @@
 
 /**
  * Manipulates log files
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 class rssMBLog {
 

@@ -1,7 +1,7 @@
 <table class="widefat rss_mb-table" id="rss_mb-settings-table">
 	<thead>
 		<tr>
-			<th colspan="5"><?php _e('Micro.blog Global Feed Settings', 'rss_mb'); ?></th>
+			<th colspan="5"><?php _e('Feed Importer for Micro.blog Global Settings', 'rss_mb'); ?></th>
 		</tr>
 	</thead>
 	<tbody class="setting-rows">

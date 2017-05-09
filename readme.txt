@@ -1,4 +1,4 @@
-=== Micro.blog Importer ===
+=== Feed Importer for Micro.blog ===
 Contributors: Michal Lichwa
 Tags: rss, feeds, import, micro.blog, rss-feed, feed, rss
 Requires at least: 3.5
@@ -6,32 +6,23 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Micro.blog Importer
+Feed Importer for Micro.blog
 
 
 == Description ==
-**The Micro.blog Importer plugin fetchs an RSS feed and publishes the full article content of each Feed Item as stand-alone post.**
-I used https://github.com/wp-plugins/rss-post-importer/ as a base for this project. The rrs-post-importer is a great tool, but my goal
-was to create something that would be targeted specifically for Micro.Blog platform. 
+Feed Importer for Micro.blog fetches an RSS feed for Micro.blog and publishes entries to your Wordpress site as a stand-alone post. In order to use this plugin, a valid username with Micro.blog is required.
 
-In order to not duplicate the work of authors of RRS Post Importer, I decided to remove most of the paid features they provide and 
-I will restrict this plugin to work only with Micro.blog. 
+**Features:**
 
-
-**Features include:**
-
-* Importing feeds automatically using cron.
-* Importing the full text rss feeds content.
-* Display the full content of the articles.
-* Chose to only display the titles of posts.
+* Multiple accounts import.
+* Frequency settings for feed imports.
+* Import the full text and images from Micro.blog rss feed content.
 * Set number of posts and category per feed.
-* Set what author to assign imported content to.
+* Assign author to imported content.
 * Simple template for formatting imported content.
-* Append prefilled HTML code or text to each published Post. 
-* Append the no-follow tag to all outbond links for **better SEO.**
-* Idiot-proof Templating system allowing you to add backlinks and excerpts.
-* Block search indexing to prevent your content from appearing in search results.
-* **Advanced Statistics**: Piechart for feeds items distribution , Bar charts for posts and much more advanced charts
+* Option to append the no-follow tag to all outbond links for **better SEO.**
+* Option to block search indexing to prevent your content from appearing in search results.
+* Displays stats for post frequency and a timeline for imports.
 
 
 
@@ -40,7 +31,7 @@ I will restrict this plugin to work only with Micro.blog.
 
 1. Upload the files to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Set up what feeds to import and when!
+3. Set up which feeds to import and when!
 
 
 == Frequently Asked Questions ==
@@ -52,8 +43,11 @@ I will restrict this plugin to work only with Micro.blog.
 
 
 == Change Log ==
+= Version 0.0.2 =
+* Fixed crash related to missing titles
+* Added new assets for the plugin. 
 
-= Version 1.0.0 =
- * RSS reader ported from https://github.com/wp-plugins/rss-post-importer/
+= Version 0.0.1 =
+* RSS reader ported from https://github.com/wp-plugins/rss-post-importer/
 
 

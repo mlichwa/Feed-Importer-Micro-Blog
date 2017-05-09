@@ -2,8 +2,6 @@
 
 /**
  * Parses content according to settings
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 class rssMBParser {
 

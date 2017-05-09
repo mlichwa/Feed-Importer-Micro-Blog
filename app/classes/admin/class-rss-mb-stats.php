@@ -2,8 +2,6 @@
 
 /**
  * Calculates and shows graphical stats
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 if (!class_exists("Rss_mb_stats")) {
 

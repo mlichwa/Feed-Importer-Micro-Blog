@@ -2,8 +2,6 @@
 
 /**
  * The class that handles the admin screen
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 class rssMBAdmin {
 
@@ -99,7 +97,12 @@ class rssMBAdmin {
 	 */
 	function admin_menu() {
 
-		add_options_page('Micro.blog Importer', 'Micro.blog Importer', 'manage_options', 'rss_mb', array($this, 'screen'));
+		add_options_page( 	'Feed Importer for Micro.blog', 
+							'Feed Importer for Micro.blog', 
+							'manage_options', 
+							'rss_mb', 
+							array($this, 'screen')
+							);
 	}
 
 	/**
@@ -194,62 +197,54 @@ class rssMBAdmin {
 		$this->load_options();
 
 		// display a success message
-		if ( isset($_GET['deleted_cache_purged']) || isset($_GET['settings-updated']) || isset($_GET['import']) && @$_GET['settings-updated'] ) {
-?>
+		if ( isset($_GET['deleted_cache_purged']) || isset($_GET['settings-updated']) || isset($_GET['import']) && @$_GET['settings-updated'] ) { ?>
 		<div id="message" class="updated">
-<?php
-			if( isset($_GET['deleted_cache_purged']) && $_GET['deleted_cache_purged'] == 'true' ) {
-?>
+			<?php
+				if( isset($_GET['deleted_cache_purged']) && $_GET['deleted_cache_purged'] == 'true' ) {
+			?>
 			<p><strong><?php _e('Cache for Deleted posts was purged.') ?></strong></p>
-<?php
+			<?php
 			}
-			if( isset($_GET['settings-updated']) && $_GET['settings-updated'] ) {
-?>
+				if( isset($_GET['settings-updated']) && $_GET['settings-updated'] ) {
+			?>
 			<p><strong><?php _e('Settings saved.') ?></strong></p>
-<?php
+			<?php
 			}
-?>
+			?>
 		</div>
-<?php
+		<?php
 			// import feeds via AJAX but only when Save is done
 			if( isset($_GET['import']) && isset($_GET['settings-updated']) && $_GET['settings-updated'] ) {
-?>
-<script type="text/javascript">
-<?php
-$ids = array();
-if ( is_array($this->options['feeds']) ) :
-	foreach ($this->options['feeds'] as $f) :
-		$ids[] = $f['id'];
-	endforeach;
-endif;
-?>
-if ( feeds !== undefined ) {
-	feeds.set( <?php echo json_encode($ids); ?> );
-}  else {
-	var feeds = <?php echo json_encode($ids); ?>;
-}
-</script>
-<?php
+		?>
+		<script type="text/javascript">
+		<?php $ids = array();
+			if ( is_array($this->options['feeds']) ) :
+				foreach ($this->options['feeds'] as $f) :
+					$ids[] = $f['id'];
+				endforeach;
+			endif; ?>
+			if ( feeds !== undefined ) {
+				feeds.set( <?php echo json_encode($ids); ?> );
+			}  else {
+				var feeds = <?php echo json_encode($ids); ?>;
 			}
-		}
-
-		// display an error message
-		if( isset($_GET['message']) && $_GET['message'] > 1 ) {
-?>
-		<div id="message" class="error">
-<?php
-			switch ( $_GET['message'] ) {
-				case 2:
-				{
-?>
-			<p><strong><?php _e('Invalid API key!', 'rss_api'); ?></strong></p>
-<?php
+			</script>
+			<?php
 				}
-//				break;
 			}
-?>
-		</div>
-<?php
+
+			// display an error message
+			if( isset($_GET['message']) && $_GET['message'] > 1 ) { ?>
+				<div id="message" class="error">
+			<?php
+				switch ( $_GET['message'] ) {
+					case 2: { ?>
+						<p><strong><?php _e('Invalid API key!', 'rss_api'); ?></strong></p>
+					<?php }
+				}
+			?>
+			</div>
+			<?php
 		}
 
 		global $rss_post_importer;
@@ -388,9 +383,6 @@ if ( feeds !== undefined ) {
 
 	/**
 	 * Walker class function for category multiple checkbox
-	 * 
-	 * 
-	 * 
 	 */
 	function wp_category_checklist_rss_mb($post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false, $walker = null, $checked_ontop = true) {
 

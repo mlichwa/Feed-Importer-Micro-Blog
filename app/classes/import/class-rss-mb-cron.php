@@ -2,8 +2,6 @@
 
 /**
  * Handles cron jobs
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 class rssMBCron {
 

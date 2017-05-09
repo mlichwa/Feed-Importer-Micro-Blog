@@ -2,8 +2,6 @@
 
 /**
  * Fallback Functions
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 
 /*

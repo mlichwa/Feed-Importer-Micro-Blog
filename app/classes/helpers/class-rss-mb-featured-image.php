@@ -2,8 +2,6 @@
 
 /**
  * Sets a featured image
- *
- * @author mobilova UG (haftungsbeschränkt) <rsspostimporter@feedsapi.com>
  */
 if (!function_exists('download_url')) {
 	require_once(ABSPATH . '/wp-admin/includes/file.php');
