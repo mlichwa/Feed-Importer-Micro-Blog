@@ -1,7 +1,7 @@
 # Feed-Importer-Micro-Blog
 Feed Importer for Micro.blog fetches an RSS feed for Micro.blog and publishes entries to your WordPress site as a stand-alone post. In order to use this plugin, a valid username with Micro.blog is required.
 
-##Features:
+## Features:
 * Multiple accounts import.
 * Frequency settings for feed imports.
 * Import the full text and images from Micro.blog rss feed content.
@@ -13,7 +13,7 @@ Feed Importer for Micro.blog fetches an RSS feed for Micro.blog and publishes en
 * Displays stats for post frequency and a timeline for imports.
 
 
-**Change Log:
+**Change Log:   
 = Version 0.0.1 =
 * Fixed crash related to missing titles
 * RSS reader ported from https://github.com/wp-plugins/rss-post-importer/
