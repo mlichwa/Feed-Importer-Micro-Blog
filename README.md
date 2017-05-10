@@ -13,8 +13,8 @@ Feed Importer for Micro.blog fetches an RSS feed for Micro.blog and publishes en
 * Displays stats for post frequency and a timeline for imports.
 
 
-**Change Log:   
-= Version 0.0.1 =
+## Change Log:   
+### Version 0.0.1
 * Fixed crash related to missing titles
 * RSS reader ported from https://github.com/wp-plugins/rss-post-importer/
 
