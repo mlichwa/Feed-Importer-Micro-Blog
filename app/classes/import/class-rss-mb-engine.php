@@ -373,7 +373,7 @@ class rssMBEngine {
 
 				//download images and save them locally if setting suggests so
 				if ($this->options['settings']['import_images_locally'] == 'true') {
-					$post = $this->download_images_locally($post);
+					 $post = $this->download_images_locally($post);
 				}
 
 				// insert as post
@@ -439,7 +439,6 @@ class rssMBEngine {
 
 		if ( isset($this->options['upgraded']['deleted_posts']) ) { // database migrated
 			// check if there is post with this source URL that is not trashed
-//			$posts = $wpdb->get_results( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->postmeta} WHERE meta_key = 'rss_mb_source_md5' and meta_value = %s", $permalink_md5 ), 'ARRAY_A');
 			$posts = $wpdb->get_results( $wpdb->prepare( "SELECT meta_id FROM {$wpdb->postmeta} pm, {$wpdb->posts} p WHERE pm.meta_key = 'rss_mb_source_md5' AND ( pm.meta_value = %s OR pm.meta_value = %s ) AND pm.post_id = p.ID AND p.post_status <> 'trash'", $permalink_md5, $permalink_md5_new ), 'ARRAY_A');
 			if ( count($posts) ) {
 				$post_exists = TRUE;
@@ -505,8 +504,13 @@ class rssMBEngine {
 	 * @return int
 	 */
 	private function _insert($post, $url) {
+		
+		$length = 'normal';
 
-		$post['post_title'] = '🤷';
+		if( $post['post_title'] == ""){
+			$post['post_title'] = 'micro.blog-entry';
+			$length = 'status';
+		}
 
 
 		if ($post['post_category'][0] == "") {
@@ -533,7 +537,12 @@ class rssMBEngine {
 		$url_md5 = md5($url_new);
 		update_post_meta($post_id, 'rss_mb_source_url', esc_url($url));
 		update_post_meta($post_id, 'rss_mb_source_md5', $url_md5);
-
+		
+		// Change post type if imported content is without title.
+		if($length == 'status'){
+			set_post_format($post_id, 'status');
+		}
+		
 		return $post_id;
 	}
 
@@ -556,15 +565,40 @@ class rssMBEngine {
 		//get all the src attribs and their values
 		$doc = $dom->getElementsByTagName('html')->item(0);
 		$src = $xpath->query('.//@src');
-		$count = 1;
+		$count = 0;
+		$ids = [];
 		foreach ($src as $s) {
 			$url = trim($s->nodeValue);
 			$attachment_id = $this->add_to_media($url, 0, $post['post_title'] . '-media-' . $count);
 			$src = wp_get_attachment_url($attachment_id);
 			$s->nodeValue = $src;
 			$count++;
+			array_push($ids, $attachment_id);
+			
 		}
-		$post['post_content'] = $dom->saveXML($doc);
+		
+		$shortcode = "[gallery link=\"file\" ids=\"";
+		foreach ($ids as $id){
+
+		 	$shortcode .= $id .',';
+		 	print_r($shortcode);
+		}
+		$shortcode .= "\"]";
+		
+		
+		// If only one image, display it full width.
+		if($count == 1){
+			$post['post_content'] = $dom->saveXML($doc);
+		}else{
+			// If more than 1 image in post, display it as a gallery
+			$post['post_content'] = preg_replace("/<img[^>]+\>/i", "", $post['post_content']); 
+			$post['post_content'] = preg_replace("/<p[^>]*><\\/p[^>]*>/", "", $post['post_content']); 
+			$post['post_content'] .= $shortcode;
+		}
+		//
+
+
+
 		return $post;
 	}
 

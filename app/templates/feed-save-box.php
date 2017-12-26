@@ -11,7 +11,7 @@
 		</div>
 		<div class="rate-box">
 			<h4><?php printf(__('%d posts imported and counting!', "rss_mb"), $this->options['imports']); ?></h4>
-			<p class="description"><a href="#" target="_blank">Please support this plugin by rating it!</a></p>
+			<p class="description"><a href="https://wordpress.org/support/plugin/feed-importer-micro-blog/reviews/#new-post" target="_blank">Please support by rating!</a></p>
 		</div>
 
 		<div id="major-publishing-actions">

@@ -78,7 +78,7 @@ if (is_array($f['category_id'])) {
 			<tr>
 				<td>
 					<label for="<?php echo ($f['id']); ?>-url"><?php _e("Micro.blog username", 'rss_mb'); ?></label>
-					<p class="description">Specify your Micro.blog username.</p>
+					<p class="description">Specify your Micro.blog username. <br>Make sure you enabled your Micro.Blog Feed first. Open Micro.Blog website and go to Account. If necessary, add new Feed.</p>
 				</td>
 				<td><input type="text" class="field-url" name="<?php echo ($f['id']); ?>-url" id="<?php echo ($f['id']); ?>-url" value="<?php echo esc_attr(stripslashes($f['url'])); ?>" /></td>
 			</tr>

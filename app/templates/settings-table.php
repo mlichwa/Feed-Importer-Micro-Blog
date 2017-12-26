@@ -42,11 +42,9 @@
 								<?php _e('Available tags:', "rss_mb"); ?>
 							<dl>
 								<dt><code>&lcub;$content&rcub;</code></dt>
-								<dt><code>&lcub;$permalink&rcub;</code></dt>
 								<dt><code>&lcub;$title&rcub;</code></dt>
 								<dt><code>&lcub;$feed_title&rcub;</code></dt>
-								<dt><code>&lcub;$excerpt:n&rcub;</code></dt>
-								<dt><code>&lcub;$inline_image&rcub;</code> <small>insert the featured image inline into the post content</small></dt>
+								
 							</dl>
 							</p>
 						</td>
@@ -159,7 +157,7 @@
 					<tr>
 						<td>
 							<?php _e('Download and save images locally?', "rss_mb"); ?>
-							<p class="description"><?php _e('Images in the feeds will be downloaded and saved in the WordPress media.', "rss_mb"); ?></p>
+							<p class="description"><?php _e('Images in the feeds will be downloaded and saved in the WordPress media. Once enabled, Micro.Blog Feed Importer will format images into Galleries. ', "rss_mb"); ?></p>
 						</td>
 						<td>
 							<ul class="radiolist">
@@ -186,65 +184,6 @@
 									<label><input type="radio" id="disable_thumbnail_false" name="disable_thumbnail" value="false" <?php echo($this->options['settings']['disable_thumbnail'] == 'false' || $this->options['settings']['disable_thumbnail'] == '' ? 'checked="checked"' : ''); ?> /> <?php _e('No', 'rss_mb'); ?></label>
 								</li>
 							</ul>
-						</td> 
-					</tr>
-					<tr>
-						<td>
-							<?php _e('Export and backup your Feeds and setting as CSV File', "rss_mb"); ?>
-							<p class="description"><?php _e('This option will help you download a csv file with all your feeds setting , you can upload it back later.', "rss_mb"); ?></p>
-						</td>
-						<td>
-						<?php
-						$disabled = '';
-						?>
-							<input type="submit" value="Export your Feeds and Setting as CSV File" name="csv_download" class="button button-primary button-large"<?php echo $disabled; ?> />     
-						</td> 
-					</tr>
-					<tr>
-						<td>
-							<?php _e('Import your CSV file with your feeds\' settings', "rss_mb"); ?>
-							<p class="description"><?php _e('Create and Import a CSV file with your Feeds\' Setting with the following Structure and heading:<br/>
-<br/>
-url , name, max_posts, author_id, category_id, tags, keywords, strip_html<br/>
-<br/>
-url = your feed url<br/>
-name = the name you gives to your feed<br/>
-max_posts = the number of posts to simultaneously import<br/>
-author_id = your author ID, this is a number<br/>
-category_id = the Category IDs - number(s) separated with comma (,)<br/>
-tags = the Tag IDs - number(s) separated with comma (,)<br/>
-keywords = the filter keywords - string(s) separated with comma (,)<br/>
-strip_html = strip html tags - "true" or "false"', "rss_mb"); ?></p>
-						</td>
-						<td>
-						<?php
-						$disabled = '';
-						?>
-							<input type="file" name="import_csv"<?php echo $disabled; ?> />
-						</td> 
-					</tr>
-					<tr>
-						<td>
-							<?php _e('Export and backup your Feeds as OPML File', "rss_mb"); ?>
-							<p class="description"><?php _e('This option will help you download an OPML file with all your feeds so you can upload it back later.', "rss_mb"); ?></p>
-						</td>
-						<td>
-						<?php
-						$disabled = '';
-						?>
-							<input type="submit" value="Export your Feeds as OPML File" name="export_opml" class="button button-primary button-large"<?php echo $disabled; ?> />     
-						</td> 
-					</tr>
-					<tr>
-						<td>
-							<?php _e('Import your OPML file with your feeds', "rss_mb"); ?>
-							<p class="description"><?php _e('Create and Import an OPML file with your Feeds', "rss_mb"); ?></p>
-						</td>
-						<td>
-						<?php
-						$disabled = '';
-						?>
-							<input type="file" name="import_opml"<?php echo $disabled; ?> />
 						</td> 
 					</tr>
 				</table>
