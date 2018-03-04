@@ -8,7 +8,7 @@ class rssMBParser {
 	/**
 	 * Parse content
 	 * 
-	 * @global object $rss_post_importer
+	 * @global object $mb_feed_importer
 	 * @param object $item Feed item
 	 * @param string $feed_title Feed title
 	 * @param boolean $strip_html whether to strio html tags
@@ -16,10 +16,10 @@ class rssMBParser {
 	 */
 	function _parse($item, $feed_title, $strip_html) {
 
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		// get the saved template
-		$post_template = $rss_post_importer->options['settings']['post_template'];
+		$post_template = $mb_feed_importer->options['settings']['post_template'];
 
 		// get the content
 		$c = $item->get_content() != "" ? $item->get_content() : $item->get_description();

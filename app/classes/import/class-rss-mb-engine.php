@@ -16,11 +16,11 @@ class rssMBEngine {
 	/**
 	 * Start the engine
 	 * 
-	 * @global type $rss_post_importer
+	 * @global type $mb_feed_importer
 	 */
 	public function __construct() {
 
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		$this->load_options();
 	}
@@ -28,12 +28,12 @@ class rssMBEngine {
 	/**
 	 * Start the engine
 	 * 
-	 * @global type $rss_post_importer
+	 * @global type $mb_feed_importer
 	 */
 	public function load_options() {
 
-		global $rss_post_importer;
-		$this->options = $rss_post_importer->options;
+		global $mb_feed_importer;
+		$this->options = $mb_feed_importer->options;
 	}
 
 	/**
@@ -42,7 +42,7 @@ class rssMBEngine {
 	 * @return int
 	 */
 	public function import_feed() {
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		$this->load_options();
 
@@ -84,9 +84,9 @@ class rssMBEngine {
 			'imports' => $imports
 		));
 
-		global $rss_post_importer;
+		global $mb_feed_importer;
 		// reload options
-		$rss_post_importer->load_options();
+		$mb_feed_importer->load_options();
 
 		remove_filter('wp_feed_cache_transient_lifetime', array($this, 'frequency'));
 
@@ -378,7 +378,9 @@ class rssMBEngine {
 
 				// insert as post
 				$post_id = $this->_insert($post, $item->get_permalink());
-
+				// if($post_id == null){
+				// 	return;
+				// }
 				// set thumbnail
 				if ( $this->options['settings']['disable_thumbnail'] == 'false' ) {
 					// assign a thumbnail (featured image) to the post
@@ -507,8 +509,31 @@ class rssMBEngine {
 		
 		$length = 'normal';
 
-		if( $post['post_title'] == ""){
-			$post['post_title'] = 'micro.blog-entry';
+		// Check if we should be adding this post or not. Exclude short or long posts.
+		$post_type = $this->options['settings']['import_post_length'];
+		
+		if(strcmp($post_type, "Short Entries") === 0 ){
+			$message = "short";
+			echo "<script type='text/javascript'>alert('$message');</script>";
+			if(strcmp($post['post_title'], "")  !== 0){
+				return;
+			}
+	
+		}else if(strcmp($post_type, "Long Entries") === 0 ){
+			$message = "long";
+			echo "<script type='text/javascript'>alert('$message');</script>";
+			if(strcmp($post['post_title'], "") === 0){
+				return;
+			}
+		}
+	
+		$post_title = $this->options['settings']['mb_feed_title'];
+		if(strcmp($post_title, "") === 0){
+			$post_title = "micro.blog-entry";
+		}
+		if( strcmp($post['post_title'], "") === 0){
+
+			$post['post_title'] = $post_title;
 			$length = 'status';
 		}
 

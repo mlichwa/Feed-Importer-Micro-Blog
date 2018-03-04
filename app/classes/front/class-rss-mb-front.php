@@ -16,13 +16,13 @@ class rssMBFront {
 	 * Initialise and hook all actions
 	 */
 	public function init() {
-		global $post, $rss_post_importer;
+		global $post, $mb_feed_importer;
 
 		// add noidex to front
 		add_action('wp_head', array($this, 'rss_mb_noindex_meta_tag'));
 
 		// add options
-		$this->options = $rss_post_importer->options;
+		$this->options = $mb_feed_importer->options;
 
 		// Check for block indexing
 		if ($this->options['settings']['nofollow_outbound'] == 'true') {
@@ -31,7 +31,7 @@ class rssMBFront {
 	}
 
 	function rss_mb_noindex_meta_tag() {
-		global $post, $rss_post_importer;
+		global $post, $mb_feed_importer;
 
 		//Add meta tag for UTF-8 character encoding.
 		echo '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />';
@@ -43,7 +43,7 @@ class rssMBFront {
 			$current_post_id = $post->ID;
 
 			// add options
-			$this->options = $rss_post_importer->options;
+			$this->options = $mb_feed_importer->options;
 
 			// get value of block indexing
 			$block_indexing = $this->options['settings']['block_indexing'];

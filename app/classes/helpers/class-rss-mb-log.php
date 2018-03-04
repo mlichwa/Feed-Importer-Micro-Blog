@@ -50,16 +50,16 @@ class rssMBLog {
 	/**
 	 * Static method to add log messages
 	 * 
-	 * @global object $rss_post_importer Global object
+	 * @global object $mb_feed_importer Global object
 	 * @param int $post_count Number of posts imported
 	 * @return null
 	 */
 	static function log($post_count) {
 
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		// if logging is disabled, return early
-		if ($rss_post_importer->options['settings']['enable_logging'] != 'true') {
+		if ($mb_feed_importer->options['settings']['enable_logging'] != 'true') {
 			return;
 		}
 

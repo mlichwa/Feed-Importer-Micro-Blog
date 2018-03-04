@@ -105,7 +105,6 @@ if (is_array($f['category_id'])) {
 				<td>
 					<?php
 					$rss_post_mb_admin = new rssMBAdmin();
-					$disabled = '';
 					
 						?>
 						<div class="category_container">
@@ -129,19 +128,6 @@ if (is_array($f['category_id'])) {
 						<?php
 						echo $rss_post_mb_admin->rss_mb_tags_checkboxes($f['id'], $f['tags_id']);
 						?></div>
-				</td>
-			</tr>
-			<tr>
-				<td><label for=""><?php _e("Strip html tags", 'rss_mb'); ?></label></td>
-				<td>
-					<ul class="radiolist">
-						<li>
-							<label><input type="radio" id="<?php echo($f['id']); ?>-strip_html" name="<?php echo($f['id']); ?>-strip_html" value="true" <?php echo($f['strip_html'] == 'true' ? 'checked="checked"' : ''); ?> /> <?php _e('Yes', 'rss_mb'); ?></label>
-						</li>
-						<li>
-							<label><input type="radio" id="<?php echo($f['id']); ?>-strip_html" name="<?php echo($f['id']); ?>-strip_html" value="false" <?php echo($f['strip_html'] == 'false' ? 'checked="checked"' : ''); ?> /> <?php _e('No', 'rss_mb'); ?></label>
-						</li>
-					</ul>
 				</td>
 			</tr>
 			<tr>

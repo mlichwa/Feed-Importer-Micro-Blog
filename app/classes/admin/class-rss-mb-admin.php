@@ -15,7 +15,7 @@ class rssMBAdmin {
 	/**
 	 *  Start
 	 * 
-	 * @global object $rss_post_importer
+	 * @global object $mb_feed_importer
 	 */
 	public function __construct() {
 
@@ -30,10 +30,10 @@ class rssMBAdmin {
 	}
 
 	private function load_options() {
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		// add options
-		$this->options = $rss_post_importer->options;
+		$this->options = $mb_feed_importer->options;
 
 		// check for valid key when we don't have it cached
 		// actually this populates the settings with our defaults on the first plugin activation
@@ -247,7 +247,7 @@ class rssMBAdmin {
 			<?php
 		}
 
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		// include the template for the ui
 		include( RSS_MB_PATH . 'app/templates/admin-ui.php');
@@ -275,7 +275,7 @@ class rssMBAdmin {
 	 * Import any feeds
 	 */
 	function ajax_import() {
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		$this->load_options();
 
@@ -345,9 +345,9 @@ class rssMBAdmin {
 		// update in db
 		update_option('rss_mb_feeds', $new_options);
 
-		global $rss_post_importer;
+		global $mb_feed_importer;
 		// reload options
-		$rss_post_importer->load_options();
+		$mb_feed_importer->load_options();
 
 		// log this
 		rssMBLog::log($post_count);

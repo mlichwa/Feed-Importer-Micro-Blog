@@ -8,7 +8,7 @@ class rssMBAdminProcessor {
 	/**
 	 * Process the form result
 	 * 
-	 * @global object $rss_post_importer
+	 * @global object $mb_feed_importer
 	 * @return null
 	 */
 	function process() {
@@ -48,7 +48,7 @@ class rssMBAdminProcessor {
 		// save and reload the options
 		$this->save_reload_options($settings, $feeds);
 
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		wp_redirect(add_query_arg(
 			array(
@@ -57,7 +57,7 @@ class rssMBAdminProcessor {
 				'import' => ( $_POST['save_to_db'] == 'true' ),
 //				'opml_errors' => $opml_errors ? urlencode(implode('<br/>',$opml_errors)) : '',
 			),
-			$rss_post_importer->page_link
+			$mb_feed_importer->page_link
 		));
 		exit;
 	}
@@ -73,13 +73,13 @@ class rssMBAdminProcessor {
 			delete_option('rss_mb_deleted_posts');
 			delete_option('rss_mb_imported_posts');
 
-			global $rss_post_importer;
+			global $mb_feed_importer;
 
 			wp_redirect(add_query_arg(
 				array(
 					'deleted_cache_purged' => 'true',
 				),
-				$rss_post_importer->page_link
+				$mb_feed_importer->page_link
 			));
 			exit;
 
@@ -167,7 +167,7 @@ class rssMBAdminProcessor {
 	/**
 	 * Process submitted data to formulate settings array
 	 * 
-	 * @global object $rss_post_importer
+	 * @global object $mb_feed_importer
 	 * @return array
 	 */
 	private function process_settings() {
@@ -184,12 +184,17 @@ class rssMBAdminProcessor {
 			'enable_logging' => $_POST['enable_logging'],
 			'import_images_locally' => $_POST['import_images_locally'],
 			'disable_thumbnail' => $_POST['disable_thumbnail'],
+			'mb_feed_title' => $_POST['mb_feed_title'],
+			'import_post_length' => $_POST['import_post_length'],
+
 			// these values are setup after key_validity check via filter()
 			'keywords' => array(),
 			'cache_deleted' => 'true',
 		);
 
-		global $rss_post_importer;
+		
+
+		global $mb_feed_importer;
 
 		// filter the settings and then send them back for saving
 		return $this->filter($settings);
@@ -255,16 +260,16 @@ class rssMBAdminProcessor {
 	/**
 	 * Update options and reload global options
 	 * 
-	 * @global type $rss_post_importer
+	 * @global type $mb_feed_importer
 	 * @param array $settings
 	 * @param array $feeds
 	 */
 	private function save_reload_options($settings, $feeds) {
 
-		global $rss_post_importer;
+		global $mb_feed_importer;
 
 		// existing options
-		$options = $rss_post_importer->options;
+		$options = $mb_feed_importer->options;
 
 		// new data
 		$new_options = array(
@@ -279,7 +284,7 @@ class rssMBAdminProcessor {
 		update_option('rss_mb_feeds', $new_options);
 
 		// reload so that the new options are used henceforth
-		$rss_post_importer->load_options();
+		$mb_feed_importer->load_options();
 	}
 
 	/**

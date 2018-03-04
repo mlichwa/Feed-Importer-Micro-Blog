@@ -1,7 +1,7 @@
 <table class="widefat rss_mb-table" id="rss_mb-settings-table">
 	<thead>
 		<tr>
-			<th colspan="5"><?php _e('Feed Importer for Micro.blog Global Settings', 'rss_mb'); ?></th>
+			<th colspan="5"><?php _e('Feed Importer for Micro.blog Settings', 'rss_mb'); ?></th>
 		</tr>
 	</thead>
 	<tbody class="setting-rows">
@@ -36,6 +36,55 @@
 					</tr>
 					<tr>
 						<td>
+							<label for="post_length"><?php _e('Import Entries according to post length', "rss_mb"); ?></label>
+							<p class="description"><?php _e('Specify posts to be imported based on their length. <br><strong>All-</strong> long and short entries<br><strong>Short Entries-</strong> without titles, <br><strong>Long Entries-</strong> with titles ', "rss_mb"); ?></p>
+						</td>
+						<td>
+						<select name="import_post_length" id="import_post_length">
+							<?php $post_lengths = array("All", "Short Entries", "Long Entries"); ?>
+							<?php foreach ($post_lengths as $length) : ?>
+								<option value="<?php echo $length; ?>" <?php
+									if ($this->options['settings']['import_post_length'] == $length) : echo('selected="selected"');
+									endif;
+									?>><?php echo $length; ?><?php echo $post_lengths[$length]; ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="mb_feed_title"><?php _e('Specify title for short entries.', "rss_mb"); ?></label>
+							<p class="description">
+							<?php _e('Short Micro.blog entries don\'t include titles. By default Micro.blog Feed Importer sets the title to <strong>micro.blog-entry</strong>.  - ', "rss_mb"); ?> 
+							</p>
+						</td>
+						<td>
+							<?php $mb_feed_title = isset($this->options['settings']["mb_feed_title"]) ? $this->options['settings']["mb_feed_title"] : ""; ?>
+							<input placeholder="Micro.blog-entry" type="text" name="mb_feed_title" id="mb_feed_title" value="<?php echo $mb_feed_title; ?>" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="post_template"><?php _e('Filter Entries by Keywords or Regex', 'rss_mb'); ?></label>
+							<p class="description"><?php _e('Filter Micro.blog entries.', "rss_mb"); ?></p>
+							<p class="description">
+								<?php _e('Use keywords and regular expressions to filter Micro.blog entries. Keywords and regex should be separated by comas.', "rss_mb"); ?>
+							</p>
+						</td>
+						<td>
+
+							<textarea name="keyword_filter" id="post_template" cols="30" rows="5">
+								<?php
+								echo implode(', ', $this->options['settings']['keywords']);
+								?>
+							</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
 							<label for="post_template"><?php _e('Template', 'rss_mb'); ?></label>
 							<p class="description"><?php _e('This is how the post will be formatted.', "rss_mb"); ?></p>
 							<p class="description">
@@ -49,7 +98,7 @@
 							</p>
 						</td>
 						<td>
-							<textarea name="post_template" id="post_template" cols="30" rows="10"><?php
+							<textarea name="post_template" id="post_template" cols="30" rows="5"><?php
 								$value = (
 										$this->options['settings']['post_template'] != '' ? $this->options['settings']['post_template'] : '{$content}' . "\nSource: " . '{$feed_title}'
 										);
@@ -172,7 +221,7 @@
 					</tr>
 					<tr>
 						<td>
-							<?php _e('Disable the featured image?', "rss_mb"); ?>
+							<?php _e('Disable featured image?', "rss_mb"); ?>
 							<p class="description"><?php _e('Don\'t set a featured image for the imported posts.', "rss_mb"); ?></p>
 						</td>
 						<td>
@@ -184,6 +233,20 @@
 									<label><input type="radio" id="disable_thumbnail_false" name="disable_thumbnail" value="false" <?php echo($this->options['settings']['disable_thumbnail'] == 'false' || $this->options['settings']['disable_thumbnail'] == '' ? 'checked="checked"' : ''); ?> /> <?php _e('No', 'rss_mb'); ?></label>
 								</li>
 							</ul>
+						</td> 
+					</tr>
+					<tr>
+						<td>
+							<?php _e('Clean cache if posts were deleted', "rss_mb"); ?>
+							<p class="description"><?php _e('In order to re-import Micro.blog entries: <br>
+															1. Delete selected Posts that were imported with Micro.blog Feed Importer.<br>
+															2. Press \'Clean Micro.blog Wordpress Cache\' button.<br>
+															3. Press \'Save and Import\' button to import entries.',  "rss_mb"); ?></p>
+						</td>
+						<td>
+							<?php $rss_mb_deleted_posts = count( get_option( 'rss_mb_deleted_posts', array() ) ); ?>
+							<p><?php printf( _n('Cached: <strong>%d</strong> deleted post', 'Cached: <strong>%d</strong> deleted posts', $rss_mb_deleted_posts, 'rss_mb'), $rss_mb_deleted_posts ); ?></p>
+							<input type="submit" value="Clean Micro.blog Wordpress Cache" name="purge_deleted_cache" class="button button-primary button-large"<?php echo $disabled; ?> />     
 						</td> 
 					</tr>
 				</table>

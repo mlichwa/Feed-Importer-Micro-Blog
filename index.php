@@ -5,7 +5,7 @@
   Plugin URI: 
   Description: This plugin imports posts created with Micro.blog. You need a valid account with Micro.blog to use this plugin.  
   Author: Michal Lichwa
-  Version: 0.9.0
+  Version: 1.0.0
   Author URI: https://michallichwa.com/
   License: GPLv2 or later
   License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,7 +27,7 @@ if (!defined('RSS_MB_BASENAME')) {
 }
 
 if (!defined('RSS_MB_VERSION')) {
-	define('RSS_MB_VERSION', '0.9.0');
+	define('RSS_MB_VERSION', '1.0.0');
 }
 
 if (!defined('RSS_MB_LOG_PATH')) {
@@ -60,12 +60,12 @@ include_once RSS_MB_PATH . 'app/classes/import/class-rss-mb-engine.php';
 include_once RSS_MB_PATH . 'app/classes/import/class-rss-mb-cron.php';
 
 // the main loader class
-include_once RSS_MB_PATH . 'app/class-rss-post-importer.php';
+include_once RSS_MB_PATH . 'app/class-mb-feed-importer.php';
 
 // initialise plugin as a global var
-global $rss_post_importer;
+global $mb_feed_importer;
 
-$rss_post_importer = new rssPostImporter();
+$mb_feed_importer = new mbFeedImporter();
 
-$rss_post_importer->init();
+$mb_feed_importer->init();
 

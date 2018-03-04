@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class to manage all other
+ * Pretty much an entry point.
  */
-class rssPostImporter {
+class mbFeedImporter {
 
 	/**
 	 * A var to store the options in
@@ -50,8 +50,8 @@ class rssPostImporter {
 	public function load_options() {
 
 		$default_settings = array(
-			'enable_logging' => false,
-			'frequency' => 0,
+			'enable_logging' => true,
+			'frequency' => 4,
 			'post_template' => "{\$content}\nSource: {\$feed_title}",
 			'post_status' => 'publish',
 			'author_id' => 1,
@@ -62,7 +62,12 @@ class rssPostImporter {
 			'import_images_locally' => false,
 			'disable_thumbnail' => false,
 			'cache_deleted' => true,
+			'mb_feed_title' => 'micro.blog-entry',
+			'import_post_length' => 'All',
 		);
+
+		
+
 
 		$options = get_option('rss_mb_feeds', array());
 
