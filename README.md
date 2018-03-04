@@ -22,8 +22,19 @@ Feed Importer for Micro.blog fetches an RSS feed for Micro.blog and publishes en
 * Option to block search indexing to prevent your content from appearing in search results.
 * If enabled, imported images are formated into Wordpress Galleries. (Enable- Download and save images locally.)
 * Imported content without a title is published as a Status (type of a Post). Longer content (with title) will be imported as normal posts.
+* Option to add custom title for Micro.blog entries without a title.
+* Option to import only Long, Short, All entries
+* Option to filter entries with keywords or regular expressions.
+* Option to clean Wordpress cache to re-import Micro blog posts
 
-## Change Log:   
+## Change Log:
+
+### Version 1.0.0
+* Option to add custom title for Micro.blog entries without a title.
+* Option to import only Long, Short, All entries
+* Option to filter entries with keywords or regular expressions.
+* Option to clean Wordpress cache to re-import Micro blog posts
+
 ### Version 0.9.0
 * Gallery formatting for multiple images
 * Better handling for content with no titles (Status) and with titles (normal posts).

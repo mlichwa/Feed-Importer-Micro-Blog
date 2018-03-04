@@ -45,6 +45,13 @@ Feed Importer for Micro.blog fetches an RSS feed for Micro.blog and publishes en
 
 
 == Change Log ==
+
+= Version 1.0.0 =
+* Option to add custom title for Micro.blog entries without a title.
+* Option to import only Long, Short, All entries
+* Option to filter entries with keywords or regular expressions.
+* Option to clean Wordpress cache to re-import Micro blog posts
+
 = Version 0.9.0 =
 * Gallery formatting for multiple images
 * Better handling for content with no titles (Status) and with titles (normal posts).
