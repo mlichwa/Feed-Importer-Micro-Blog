@@ -11,7 +11,7 @@ class rssMBParser {
 	 * @global object $mb_feed_importer
 	 * @param object $item Feed item
 	 * @param string $feed_title Feed title
-	 * @param boolean $strip_html whether to strio html tags
+	 * @param boolean $strip_html whether to strip html tags
 	 * @return type
 	 */
 	function _parse($item, $feed_title, $strip_html) {
@@ -23,18 +23,32 @@ class rssMBParser {
 
 		// get the content
 		$c = $item->get_content() != "" ? $item->get_content() : $item->get_description();
-
 		$c = apply_filters('pre_rss_mb_parse_content', $c);
 
 		$c = $this->escape_backreference($c);
+
+		// $pubDate = $item->get_date();
+
+		// if ( class_exists( 'PC' ) ) { 
+		// 	PC::debug( $pubDate, 'Date' );
+		// }
+
+
+		// var_dump($pubDate);
+		// print_r("Hello");
 
 		// do all the replacements
 		$parsed_content = preg_replace('/\{\$content\}/i', $c, $post_template);
 		$parsed_content = preg_replace('/\{\$feed_title\}/i', $feed_title, $parsed_content);
 		$parsed_content = preg_replace('/\{\$title\}/i', $item->get_title(), $parsed_content);
-
+		//$parsed_content = preg_replace('/\{\$pub_date\}/i', $pubDate, $parsed_content);
 		// check if we need an excerpt
 		$parsed_content = $this->_excerpt($parsed_content, $c);
+
+
+		// if ( class_exists( 'PC' ) ) { 
+		// 	PC::debug( $parsed_content, 'Date' );
+		// }
 
 		// strip html, if needed
 		if ($strip_html == 'true') {
@@ -46,6 +60,7 @@ class rssMBParser {
 
 		$parsed_content = apply_filters('after_rss_mb_parse_content', $parsed_content);
 
+		//var_dump($parsed_content);
 		return $parsed_content;
 	}
 

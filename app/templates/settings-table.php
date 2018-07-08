@@ -1,3 +1,5 @@
+
+
 <table class="widefat rss_mb-table" id="rss_mb-settings-table">
 	<thead>
 		<tr>
@@ -37,7 +39,7 @@
 					<tr>
 						<td>
 							<label for="post_length"><?php _e('Import Entries according to post length', "rss_mb"); ?></label>
-							<p class="description"><?php _e('Specify posts to be imported based on their length. <br><strong>All-</strong> long and short entries<br><strong>Short Entries-</strong> without titles, <br><strong>Long Entries-</strong> with titles ', "rss_mb"); ?></p>
+							<p class="description"><?php _e('Specify posts to be imported based on their length. <br><strong>All-</strong> long and short entries<br><strong>Short Entries-</strong> without titles and less than 280 characters, <br><strong>Long Entries-</strong> with titles and more than 280 characters', "rss_mb"); ?></p>
 						</td>
 						<td>
 						<select name="import_post_length" id="import_post_length">
@@ -46,7 +48,7 @@
 								<option value="<?php echo $length; ?>" <?php
 									if ($this->options['settings']['import_post_length'] == $length) : echo('selected="selected"');
 									endif;
-									?>><?php echo $length; ?><?php echo $post_lengths[$length]; ?>
+									?>><?php echo $length; ?>
 								</option>
 							<?php endforeach; ?>
 						</select>
@@ -58,12 +60,14 @@
 						<td>
 							<label for="mb_feed_title"><?php _e('Specify title for short entries.', "rss_mb"); ?></label>
 							<p class="description">
-							<?php _e('Short Micro.blog entries don\'t include titles. By default Micro.blog Feed Importer sets the title to <strong>micro.blog-entry</strong>.  - ', "rss_mb"); ?> 
+							<?php _e('Short Micro.blog entries don\'t have titles. By default Micro.blog Feed Importer uses formatted publish date as a post title. You can change that by setting your own title in the box on the right or leave it empty to use formatted date.', "rss_mb"); ?> 
 							</p>
 						</td>
 						<td>
-							<?php $mb_feed_title = isset($this->options['settings']["mb_feed_title"]) ? $this->options['settings']["mb_feed_title"] : ""; ?>
-							<input placeholder="Micro.blog-entry" type="text" name="mb_feed_title" id="mb_feed_title" value="<?php echo $mb_feed_title; ?>" />
+							<?php 
+								$timestamp = date("l jS \of F Y");
+								$mb_feed_title = isset($this->options['settings']["mb_feed_title"]) ? $this->options['settings']["mb_feed_title"] : ""; ?>
+							<input placeholder="<?php echo $timestamp; ?>" type="text" name="mb_feed_title" id="mb_feed_title" value="<?php echo $mb_feed_title; ?>" />
 						</td>
 					</tr>
 					<tr>
@@ -143,67 +147,6 @@
 						</td>
 					</tr>
 					<tr>
-						<td><?php _e('Allow comments', "rss_mb"); ?></td>
-						<td>
-							<ul class="radiolist">
-								<li>
-									<label><input type="radio" id="allow_comments_open" name="allow_comments" value="open" <?php echo($this->options['settings']['allow_comments'] == 'open' ? 'checked="checked"' : ''); ?> /> <?php _e('Yes', 'rss_mb'); ?></label>
-								</li>
-								<li>
-									<label><input type="radio" id="allow_comments_false" name="allow_comments" value="false" <?php echo($this->options['settings']['allow_comments'] == 'false' ? 'checked="checked"' : ''); ?> /> <?php _e('No', 'rss_mb'); ?></label>
-								</li>
-							</ul>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php _e('Block search indexing?', "rss_mb"); ?>
-							<p class="description"><?php _e('Prevent your content from appearing in search results.', "rss_mb"); ?></p>
-						</td>
-						<td>
-							<ul class="radiolist">
-								<li>
-									<label><input type="radio" id="block_indexing_true" name="block_indexing" value="true" <?php echo($this->options['settings']['block_indexing'] == 'true' ? 'checked="checked"' : ''); ?> /> <?php _e('Yes', 'rss_mb'); ?></label>
-								</li>
-								<li>
-									<label><input type="radio" id="block_indexing_false" name="block_indexing" value="false" <?php echo($this->options['settings']['block_indexing'] == 'false' || $this->options['settings']['block_indexing'] == '' ? 'checked="checked"' : ''); ?> /> <?php _e('No', 'rss_mb'); ?></label>
-								</li>
-							</ul>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php _e('Nofollow option for all outbound links?', "rss_mb"); ?>
-							<p class="description"><?php _e('Add rel="nofollow" to all outbounded links.', "rss_mb"); ?></p>
-						</td>
-						<td>
-							<ul class="radiolist">
-								<li>
-									<label><input type="radio" id="nofollow_outbound_true" name="nofollow_outbound" value="true" <?php echo($this->options['settings']['nofollow_outbound'] == 'true' ? 'checked="checked"' : ''); ?> /> <?php _e('Yes', 'rss_mb'); ?></label>
-								</li>
-								<li>
-									<label><input type="radio" id="nofollow_outbound_false" name="nofollow_outbound" value="false" <?php echo($this->options['settings']['nofollow_outbound'] == 'false' || $this->options['settings']['nofollow_outbound'] == '' ? 'checked="checked"' : ''); ?> /> <?php _e('No', 'rss_mb'); ?></label>
-								</li>
-							</ul>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<?php _e('Enable logging?', "rss_mb"); ?>
-							<p class="description"><?php _e('The logfile can be found <a href="#" class="load-log">here</a>.', "rss_mb"); ?></p>
-						</td>
-						<td>
-							<ul class="radiolist">
-								<li>
-									<label><input type="radio" id="enable_logging_true" name="enable_logging" value="true" <?php echo($this->options['settings']['enable_logging'] == 'true' ? 'checked="checked"' : ''); ?> /> <?php _e('Yes', 'rss_mb'); ?></label>
-								</li>
-								<li>
-									<label><input type="radio" id="enable_logging_false" name="enable_logging" value="false" <?php echo($this->options['settings']['enable_logging'] == 'false' || $this->options['settings']['enable_logging'] == '' ? 'checked="checked"' : ''); ?> /> <?php _e('No', 'rss_mb'); ?></label>
-								</li>
-							</ul>
-						</td> 
-					</tr>
-					<tr>
 						<td>
 							<?php _e('Download and save images locally?', "rss_mb"); ?>
 							<p class="description"><?php _e('Images in the feeds will be downloaded and saved in the WordPress media. Once enabled, Micro.Blog Feed Importer will format images into Galleries. ', "rss_mb"); ?></p>
@@ -246,7 +189,7 @@
 						<td>
 							<?php $rss_mb_deleted_posts = count( get_option( 'rss_mb_deleted_posts', array() ) ); ?>
 							<p><?php printf( _n('Cached: <strong>%d</strong> deleted post', 'Cached: <strong>%d</strong> deleted posts', $rss_mb_deleted_posts, 'rss_mb'), $rss_mb_deleted_posts ); ?></p>
-							<input type="submit" value="Clean Micro.blog Wordpress Cache" name="purge_deleted_cache" class="button button-primary button-large"<?php echo $disabled; ?> />     
+							<input type="submit" value="Clean Micro.blog Wordpress Cache" name="purge_deleted_cache" class="button button-primary button-large"/>     
 						</td> 
 					</tr>
 				</table>

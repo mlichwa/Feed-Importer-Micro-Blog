@@ -5,7 +5,6 @@
  */
 class rssMBEngine {
 
-
 	/**
 	 * The options
 	 * 
@@ -124,9 +123,6 @@ class rssMBEngine {
 			'save_to_db' => true
 		);
 		// I'm limiting this tool to be used only with micro.blog domain. 
-		// The reason behind this choice that I've used vast of the code from another project.
-		// And since the other tools have more general approach (any RSS feed is allowed), I want this 
-		// plugin to work only with Micro.blog.
 		$maskedURL = 'https://'. $f['url'] . '.micro.blog/feed.xml';
 		return $this->_import($maskedURL, $args);
 	}
@@ -146,7 +142,7 @@ class rssMBEngine {
 
 		$defaults = array(
 			'feed_title' => '',
-			'max_posts' => 5,
+			'max_posts' => 50,
 			'author_id' => 1,
 			'category_id' => 0,
 			'tags_id' => array(),
@@ -160,12 +156,12 @@ class rssMBEngine {
 		// include the default WP feed processing functions
 		include_once( ABSPATH . WPINC . '/feed.php' );
 
-		// get the right url for fetching (premium vs free)
+		// get the right url for fetching
 		$url = $this->url($url);
 
 		// fetch the feed
 		$feed = fetch_feed($url);
-
+		
 		if (is_wp_error($feed)) {
 			return false;
 		}
@@ -196,13 +192,13 @@ class rssMBEngine {
 	 */
 	private function save($feed, $args = array()) {
 
+		
 		// filter the feed and get feed items
 		$feed_items = $this->filter($feed, $args);
 
 		// if we are saving
 		if ($args['save_to_db']) {
 			// insert and return
-			var_dump($feed_items);
 			$saved_posts = $this->insert($feed_items, $args);
 			return $saved_posts;
 		}
@@ -329,8 +325,19 @@ class rssMBEngine {
 		// Featured Image setter
 		$thumbnail = new rssMBFeaturedImage();
 
+		// $items = array_reverse($items);
+
+
 		foreach ( $items as $item ) {
+			
 			if ( ! $this->post_exists($item) ) {
+
+				// $pubDate = $item->get_date();
+
+				// if ( class_exists( 'PC' ) ) { 
+				// 	PC::debug( $pubDate, 'Date' );
+				// }
+
 				/* Code to convert tags id array to tag name array * */
 				if ( ! empty($args['tags_id']) ) {
 					foreach ( $args['tags_id'] as $tagid ) {
@@ -343,16 +350,39 @@ class rssMBEngine {
 
 				// parse the content
 				$content = $parser->_parse($item, $args['feed_title'], $args['strip_html']);
+
+				// var_dump($content);
+				// PhpConsole\Connector::getInstance()->getDebugDispatcher()->dispatchDebug($content, 'some.tags');
+
+				// Set appropriate title based on the length of the post and user's input
+				$title = $item->get_title();
+				$original_title = $item->get_title();
+
 				
+
+
+				if($title == ""){
+
+					$post_title = $this->options['settings']['mb_feed_title'];
+					if($post_title != ""){
+						$title = $post_title;
+					}else{
+						$title = $item->get_date('l jS \of F Y');
+					}
+				}
+				
+				
+	
 				$post = array(
-					'post_title' => $item->get_title(),
+					'post_title' => $title,
 					'post_content' => $content,
 					'post_status' => $this->options['settings']['post_status'],
 					'post_author' => $args['author_id'],
 					'post_category' => array($args['category_id']),
 					'tags_input' => $tags_name,
 					'comment_status' => $this->options['settings']['allow_comments'],
-					'post_date' => get_date_from_gmt($item->get_date('Y-m-d H:i:s'))
+					'post_date' => $item->get_date('Y-m-d H:i:s')
+					
 				);
 
 				// catch base url and replace any img src with it
@@ -377,10 +407,8 @@ class rssMBEngine {
 				}
 
 				// insert as post
-				$post_id = $this->_insert($post, $item->get_permalink());
-				// if($post_id == null){
-				// 	return;
-				// }
+				$post_id = $this->_insert($post, $item->get_permalink(), $original_title);
+
 				// set thumbnail
 				if ( $this->options['settings']['disable_thumbnail'] == 'false' ) {
 					// assign a thumbnail (featured image) to the post
@@ -505,36 +533,21 @@ class rssMBEngine {
 	 * @param string $url source url meta
 	 * @return int
 	 */
-	private function _insert($post, $url) {
-		
-		$length = 'normal';
+	private function _insert($post, $url, $original_title) {
 
-		// Check if we should be adding this post or not. Exclude short or long posts.
 		$post_type = $this->options['settings']['import_post_length'];
-		
+						
 		if(strcmp($post_type, "Short Entries") === 0 ){
-			$message = "short";
-			echo "<script type='text/javascript'>alert('$message');</script>";
-			if(strcmp($post['post_title'], "")  !== 0){
-				return;
-			}
-	
-		}else if(strcmp($post_type, "Long Entries") === 0 ){
-			$message = "long";
-			echo "<script type='text/javascript'>alert('$message');</script>";
-			if(strcmp($post['post_title'], "") === 0){
-				return;
-			}
-		}
-	
-		$post_title = $this->options['settings']['mb_feed_title'];
-		if(strcmp($post_title, "") === 0){
-			$post_title = "micro.blog-entry";
-		}
-		if( strcmp($post['post_title'], "") === 0){
 
-			$post['post_title'] = $post_title;
-			$length = 'status';
+			if(strcmp($original_title, "")  !== 0){
+				return;
+			}
+
+		}else if(strcmp($post_type, "Long Entries") === 0 ){
+
+			if(strcmp($original_title, "") === 0){
+				return;
+			}
 		}
 
 
@@ -602,13 +615,18 @@ class rssMBEngine {
 			
 		}
 		
-		$shortcode = "[gallery link=\"file\" ids=\"";
-		foreach ($ids as $id){
-
-		 	$shortcode .= $id .',';
-		 	print_r($shortcode);
+		$shortcode ='';
+		if(count($ids) != 0){
+			$shortcode = "[gallery link=\"file\" ids=\"";
+			foreach ($ids as $id){
+	
+				 $shortcode .= $id .',';
+				 //print_r($shortcode);
+			}
+			$shortcode .= "\"]";
 		}
-		$shortcode .= "\"]";
+
+		
 		
 		
 		// If only one image, display it full width.

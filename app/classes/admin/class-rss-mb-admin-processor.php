@@ -41,6 +41,9 @@ class rssMBAdminProcessor {
 			$opml = new Rss_mb_opml();
 			$feeds = $opml->import($feeds);
 			$opml_errors = $opml->errors;
+			// var_dump($feeds);
+			// var_dump($opml_errors);
+
 		} else {
 			$opml_errors = array();
 		}

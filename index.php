@@ -5,7 +5,7 @@
   Plugin URI: 
   Description: This plugin imports posts created with Micro.blog. You need a valid account with Micro.blog to use this plugin.  
   Author: Michal Lichwa
-  Version: 1.0.0
+  Version: 1.1.0
   Author URI: https://michallichwa.com/
   License: GPLv2 or later
   License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,7 +27,7 @@ if (!defined('RSS_MB_BASENAME')) {
 }
 
 if (!defined('RSS_MB_VERSION')) {
-	define('RSS_MB_VERSION', '1.0.0');
+	define('RSS_MB_VERSION', '1.1.0');
 }
 
 if (!defined('RSS_MB_LOG_PATH')) {

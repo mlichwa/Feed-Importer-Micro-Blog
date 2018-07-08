@@ -2,8 +2,8 @@
 Contributors: Michal Lichwa
 Tags: micro.blog, rss, feeds, import, rss-feed, feed, rss
 Requires at least: 3.5
-Tested up to: 4.9.1
-Stable tag: 1.0.0
+Tested up to: 4.9.7
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,8 +21,7 @@ Feed Importer for Micro.blog fetches an RSS feed for Micro.blog and publishes en
 * Set number of posts and category per feed.
 * Assign author to imported content.
 * Simple template for formatting imported content.
-* Option to append the no-follow tag to all outbond links for **better SEO.**
-* Option to block search indexing to prevent your content from appearing in search results.
+* Option to edit titles for short entries. By default formatted date of the publication is used.
 * If enabled, imported images are formated into Wordpress Galleries. (Enable- Download and save images locally.)
 * Imported content without a title is published as a Status (type of a Post). Longer content (with title) will be imported as normal posts.
 
@@ -45,6 +44,16 @@ Feed Importer for Micro.blog fetches an RSS feed for Micro.blog and publishes en
 
 
 == Change Log ==
+= Version 1.1.0 =
+* Big code cleanup.
+* Less bugs and stability improvements.
+* I disabled a few options related to SEO. 
+* Option to better manage short post titles.
+* New logo.
+* Update for websites using HTTPS protocol.
+* I cleaned up some of the descriptions for MBFI functions.
+* Probably introduced a few minor bugs ()
+
 
 = Version 1.0.0 =
 * Option to add custom title for Micro.blog entries without a title.

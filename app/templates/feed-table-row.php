@@ -83,7 +83,10 @@ if (is_array($f['category_id'])) {
 				<td><input type="text" class="field-url" name="<?php echo ($f['id']); ?>-url" id="<?php echo ($f['id']); ?>-url" value="<?php echo esc_attr(stripslashes($f['url'])); ?>" /></td>
 			</tr>
 			<tr>
-				<td><label for="<?php echo ($f['id']); ?>-max_posts"><?php _e("Max posts / import", 'rss_mb'); ?></label></td>
+				<td>
+					<label for="<?php echo ($f['id']); ?>-max_posts"><?php _e("Max posts / import", 'rss_mb'); ?></label>
+					<p class="description">Due to Micro.blog limitation, this plugin can import up to 50 entries. If this is your first time connecting Micro.blog to your Wordoress site and would like to include all Micro.blog entries, please consider using 'Wordpress Export' function on Micro.blog first. </p>
+				</td>
 				<td><input type="number" class="field-max_posts" name="<?php echo ($f['id']); ?>-max_posts" id="<?php echo ($f['id']); ?>-max_posts" value="<?php echo ($f['max_posts']); ?>" min="1" max="100" /></td>
 			</tr>
 			<tr>

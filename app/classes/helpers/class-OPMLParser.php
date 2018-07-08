@@ -88,6 +88,7 @@ class OPMLParser {
 			'text' => (string) $element['text'],
 			'title' => (string) $element['title'],
 			'description' => (string) $element['description'],
+			'publish_date' => (string) $element['pubDate']
 		);
 	}
 

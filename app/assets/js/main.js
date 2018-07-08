@@ -183,7 +183,8 @@ $('document').ready(function(){
 						$("#rss_mb_progressbar_label .count").text(feeds.imported());
 						import_feed(feeds.get());
 					} else {
-						$("#rss_mb_progressbar_label").html("Import completed. Imported posts: " + feeds.imported());
+						$("#rss_mb_progressbar_label").html("Import completed.");
+						//Imported posts: " + feeds.imported()
 					}
 				}
 			});
@@ -192,7 +193,7 @@ $('document').ready(function(){
 			value: 0,
 			max: feeds.total()
 		});
-		$("#rss_mb_progressbar_label").html("Import in progres. Processed feeds: <span class='processed'>0</span> of <span class='max'>"+feeds.total()+"</span>. Imported posts so far: <span class='count'>0</span>");
+		$("#rss_mb_progressbar_label").html("Import in progres...");
 		import_feed(feeds.get());
 	}
 

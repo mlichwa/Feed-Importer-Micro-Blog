@@ -121,7 +121,7 @@ class rssMBAdmin {
 		// register scripts & styles
 		wp_enqueue_style('rss-mb', RSS_MB_URL . 'app/assets/css/style.css', array(), RSS_MB_VERSION);
 
-		wp_enqueue_style('rss-mb-jquery-ui-css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/redmond/jquery-ui.css', array(), RSS_MB_VERSION);
+		wp_enqueue_style('rss-mb-jquery-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/redmond/jquery-ui.css', array(), RSS_MB_VERSION);
 
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-datepicker');

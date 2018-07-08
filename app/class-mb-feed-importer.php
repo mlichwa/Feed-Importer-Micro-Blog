@@ -48,7 +48,7 @@ class mbFeedImporter {
 	 * Load options from the db
 	 */
 	public function load_options() {
-
+		
 		$default_settings = array(
 			'enable_logging' => true,
 			'frequency' => 4,
@@ -62,7 +62,7 @@ class mbFeedImporter {
 			'import_images_locally' => false,
 			'disable_thumbnail' => false,
 			'cache_deleted' => true,
-			'mb_feed_title' => 'micro.blog-entry',
+			'mb_feed_title' => "",
 			'import_post_length' => 'All',
 		);
 
